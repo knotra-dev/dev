@@ -22,7 +22,7 @@ make dev
 
 In desktop Settings, connect to `http://127.0.0.1:8787`. The local profile needs
 Ollama at `http://127.0.0.1:11434` with `qwen3.5:9b` installed separately.
-See the [engine running guide](https://github.com/knotra-dev/engine/blob/main/docs/running.md)
+See the [engine deployment guide](https://github.com/knotra-dev/engine/wiki/Deployment)
 for other providers. Setup downloads no model weights and makes no paid calls.
 
 PostgreSQL uses port `25432` and a persistent Docker volume. Engine files live in
