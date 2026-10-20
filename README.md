@@ -1,16 +1,18 @@
 # Knotra development workspace
 
-Develop the engine and desktop together while each keeps its own history, checks and releases.
+Develop the engine, desktop and documentation while each keeps its own history, checks and releases.
 
 | Repository                                       | Owns                                                               |
 | ------------------------------------------------ | ------------------------------------------------------------------ |
 | [engine](https://github.com/knotra-dev/engine)   | Go engine, River runtime, CLI, API, schemas and examples           |
 | [desktop](https://github.com/knotra-dev/desktop) | Tauri app, browser preview and a pinned engine asset snapshot      |
+| [docs](https://github.com/knotra-dev/docs)       | Project documentation and guides, published with GitHub Pages      |
 | [dev](https://github.com/knotra-dev/dev)         | Local setup, tested revision pairs and cross-repository acceptance |
 
 ## Set up
 
-Install Git, Make, Python 3, Go from engine's `go.mod`, Bun 1.3.10, Rust/rustup and
+Install Git, Make, Python 3, Go from engine's `go.mod`, Bun 1.3.10, Node.js 24, pnpm 11.25.0,
+Rust/rustup and
 [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/). Docker with Compose is needed for
 PostgreSQL and sandboxes. Native desktop development needs its platform toolchain; these Make
 commands target macOS/Linux (use WSL for the engine on Windows).
@@ -34,7 +36,14 @@ providers and databases. Override `KNOTRA_DATABASE_URL` to use an existing devel
 
 Use `make engine` and `make desktop` in separate terminals for independent restarts, or
 `make browser` for preview at `http://127.0.0.1:1420`. Native and browser dev servers share that
-port. Open `knotra.code-workspace` in an editor for all three repositories.
+port. Open `knotra.code-workspace` in an editor for all four repositories.
+
+## Documentation
+
+Run `make docs` to edit the OpenDocs site in `repos/docs`. It uses Node.js 24 and pnpm 11.25.0;
+`make bootstrap` installs its dependencies alongside the product dependencies. Run `make docs-check`
+to lint, build, typecheck and test its static export before pushing documentation changes.
+The docs repository owns its GitHub Pages deployment.
 
 ## Change both products
 
@@ -63,8 +72,9 @@ infrastructure from `make infra`. It tests native receipts/SSE and browser workf
 River, PostgreSQL and Docker, with a fixed model provider. No Ollama or paid calls are needed. Use a
 development database; tests isolate their own schema.
 
-Push both product commits before recording the pair with `make lock`, then commit/push
-`repos.lock.json` here. The lock command refuses dirty product trees or an engine/snapshot mismatch.
+Push changed repository commits before recording their revisions with `make lock`, then commit/push
+`repos.lock.json` here. The lock command refuses dirty engine, desktop or docs trees, or an
+engine/snapshot mismatch.
 CI bootstraps those exact revisions and runs the paired acceptance suite. It does not silently
 follow product `main` branches. Single-repository work can use each product's own checkout and CI.
 
