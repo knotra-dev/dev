@@ -1,0 +1,59 @@
+name: Paired integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      COMPOSE_PROJECT_NAME: knotra-dev-ci
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s scripts -v
+      - run: python3 scripts/workspace.py bootstrap
+      - run: python3 scripts/workspace.py check
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: repos/engine/go.mod
+          cache-dependency-path: repos/engine/go.sum
+      - name: Linux native prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - run: npm install --global bun@1.3.10
+      - run: make bootstrap
+      - name: Verify the pinned snapshot
+        working-directory: repos/desktop
+        run: |
+          python3 -m unittest discover -s scripts -v
+          python3 scripts/sync-engine.py ../engine "$(git -C ../engine rev-parse HEAD)" --check
+      - run: bunx playwright install --with-deps chromium
+        working-directory: repos/desktop
+      - run: make infra
+      - run: make integration
+      - name: Acceptance and infrastructure logs
+        if: failure()
+        working-directory: repos/engine
+        run: |
+          docker compose logs --no-color --tail=100
+          if test -d .knotra/integration-work; then
+            find .knotra/integration-work -type f \( -name '*.log' -o -name error-context.md \) -exec tail -n 100 {} +
+          fi
+      - name: Clean up disposable CI infrastructure
+        if: always()
+        working-directory: repos/engine
+        run: docker compose down --volumes

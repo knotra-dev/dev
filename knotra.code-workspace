@@ -1,0 +1,11 @@
+{
+  "folders": [
+    { "name": "dev", "path": "." },
+    { "name": "engine", "path": "repos/engine" },
+    { "name": "desktop", "path": "repos/desktop" },
+  ],
+  "settings": {
+    "files.exclude": { "repos": true },
+    "search.exclude": { "**/node_modules": true, "**/target": true, "**/vendor/engine": true },
+  },
+}
