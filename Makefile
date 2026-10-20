@@ -7,7 +7,7 @@ export KNOTRA_DATABASE_URL ?= postgres://knotra:knotra-development@127.0.0.1:254
 
 help:
 	@printf '%s\n' \
-	  'make bootstrap    Clone pinned repositories and install Go/Bun/pnpm dependencies' \
+	  'make bootstrap    Clone pinned repositories and install Go/Bun dependencies' \
 	  'make status       Show revisions, edits and lock differences' \
 	  'make infra        Start PostgreSQL and build/pull sandbox dependencies' \
 	  'make dev          Start engine and native desktop; Ctrl-C stops both' \
@@ -25,7 +25,7 @@ bootstrap:
 	python3 scripts/workspace.py bootstrap
 	cd repos/engine && go mod download
 	cd repos/desktop && bun install --frozen-lockfile
-	pnpm --dir repos/docs install --frozen-lockfile
+	$(MAKE) -C repos/docs install
 
 status:
 	python3 scripts/workspace.py status
@@ -60,10 +60,10 @@ browser:
 	cd repos/desktop && bun run dev
 
 docs:
-	pnpm --dir repos/docs dev
+	$(MAKE) -C repos/docs dev
 
 docs-check:
-	cd repos/docs && pnpm lint && pnpm build && pnpm typecheck && pnpm test
+	$(MAKE) -C repos/docs check
 
 dev:
 	$(MAKE) -C repos/engine build
