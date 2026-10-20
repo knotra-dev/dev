@@ -3,6 +3,7 @@
     { "name": "dev", "path": "." },
     { "name": "engine", "path": "repos/engine" },
     { "name": "desktop", "path": "repos/desktop" },
+    { "name": "docs", "path": "repos/docs" },
   ],
   "settings": {
     "files.exclude": { "repos": true },

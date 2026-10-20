@@ -8,7 +8,7 @@ import re
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-NAMES = ("engine", "desktop")
+NAMES = ("engine", "desktop", "docs")
 
 
 def git(repo, *args):
@@ -18,7 +18,7 @@ def git(repo, *args):
 def read_lock(root):
     entries = json.loads((root / "repos.lock.json").read_text())
     if set(entries) != set(NAMES):
-        raise ValueError("lock must contain engine and desktop")
+        raise ValueError("lock must contain engine, desktop and docs")
     for name, entry in entries.items():
         if entry["url"] != f"https://github.com/knotra-dev/{name}.git":
             raise ValueError("unexpected repository URL: " + name)
