@@ -24,10 +24,11 @@ make dev
 ```
 
 Save `http://127.0.0.1:8787` in desktop Settings. `make dev` stops the engine when desktop exits;
-PostgreSQL persists. `make stop` stops PostgreSQL without deleting data. Model credentials and
-profiles stay in engine. The bundled local profile expects Ollama at `http://127.0.0.1:11434` with
-`qwen3.5:9b`; install/pull it explicitly before running model workflows. Setup does not download
-model weights or make paid calls. See the
+PostgreSQL persists in the `knotra-dev` Compose project's volume; engine files live in
+`.state/engine`. `make stop` stops PostgreSQL without deleting data. Stop an older local stack first
+if it uses port `25432`. Model credentials and profiles stay in engine. The bundled local profile
+expects Ollama at `http://127.0.0.1:11434` with `qwen3.5:9b`; install/pull it explicitly before
+running model workflows. Setup does not download model weights or make paid calls. See the
 [engine running guide](https://github.com/knotra-dev/engine/blob/main/docs/running.md) for other
 providers and databases. Override `KNOTRA_DATABASE_URL` to use an existing development DB.
 

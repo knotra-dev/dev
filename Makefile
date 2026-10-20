@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 ROOT := $(CURDIR)
+export COMPOSE_PROJECT_NAME ?= knotra-dev
 export KNOTRA_DATABASE_URL ?= postgres://knotra:knotra-development@127.0.0.1:25432/knotra?sslmode=disable
 
 .PHONY: help bootstrap status lock check infra stop engine desktop browser dev integration
