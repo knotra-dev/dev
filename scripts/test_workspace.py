@@ -17,10 +17,12 @@ class WorkspaceTest(unittest.TestCase):
             root = Path(directory)
             (root / "scripts").mkdir()
             shutil.copy(Path(__file__).with_name("dev.sh"), root / "scripts/dev.sh")
+
             (root / "repos/engine/bin").mkdir(parents=True)
             (root / "repos/desktop").mkdir()
             stubs = root / "stubs"
             stubs.mkdir()
+
             engine = root / "repos/engine/bin/knotra"
             engine.write_text(
                 f"#!{sys.executable}\n"
@@ -31,6 +33,7 @@ class WorkspaceTest(unittest.TestCase):
                 "while True: time.sleep(0.01)\n"
             )
             engine.chmod(0o755)
+
             frontend = stubs / "bun"
             frontend.write_text(
                 f"#!{sys.executable}\n"
@@ -42,15 +45,18 @@ class WorkspaceTest(unittest.TestCase):
                 "exit(1)\n"
             )
             frontend.chmod(0o755)
+
             pid_file = root / "engine.pid"
             env = dict(
                 os.environ,
                 PATH=str(stubs) + os.pathsep + os.environ["PATH"],
                 TEST_ENGINE_PID=str(pid_file),
             )
+
             subprocess.run(
                 ["bash", str(root / "scripts/dev.sh")], check=True, env=env, timeout=10
             )
+
             with self.assertRaises(ProcessLookupError):
                 os.kill(int(pid_file.read_text()), 0)
 
