@@ -20,10 +20,23 @@ make infra
 make dev
 ```
 
-In desktop Settings, connect to `http://127.0.0.1:8787`. The local profile needs
-Ollama at `http://127.0.0.1:11434` with `qwen3.5:9b` installed separately.
-See the [engine deployment guide](https://github.com/knotra-dev/engine/wiki/Deployment)
-for other providers. Setup downloads no model weights and makes no paid calls.
+`make dev` starts a separate development engine. In desktop Settings, open
+**Connect to an existing engine** and connect to `http://127.0.0.1:8787`.
+Its local profile uses Ollama at `http://127.0.0.1:11434` with `qwen3.5:9b`
+installed separately. See the
+[engine deployment guide](https://github.com/knotra-dev/engine/wiki/Deployment)
+for other providers.
+
+To use the app-managed engine instead, run `make desktop`. Save API, Codex,
+Claude, or Ollama sources in Settings, then start the local engine there once.
+It restores configured sources and starts automatically on later launches.
+Choose a source and model separately for each block. First launch starts with an
+empty workspace and an optional guided pipeline; replay the tour from Settings.
+Setup downloads no model weights and makes no paid calls.
+
+See [model connections](https://knotra-dev.github.io/docs/en/docs/guides/connect-models/),
+[MCP tools](https://knotra-dev.github.io/docs/en/docs/guides/mcp-tools/), and
+[controlling Knotra with MCP](https://knotra-dev.github.io/docs/en/docs/guides/control-knotra/).
 
 PostgreSQL uses port `25432` and a persistent Docker volume. Engine files live in
 `.state/engine`. Set `KNOTRA_DATABASE_URL` to use an existing development database.

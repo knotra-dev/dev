@@ -1,14 +1,14 @@
 {
   "engine": {
     "url": "https://github.com/knotra-dev/engine.git",
-    "commit": "5dc1178466e1c53030204bd1cfa690a3a4709420"
+    "commit": "4b0b7d01ecde2c23c0f20e159e69ebac88e51b6f"
   },
   "desktop": {
     "url": "https://github.com/knotra-dev/desktop.git",
-    "commit": "9e2ecc9ca6e93aebb30f9c145dd77d3730fd3d2b"
+    "commit": "e913248881ea2393efc860317c4fe2a56b083965"
   },
   "docs": {
     "url": "https://github.com/knotra-dev/docs.git",
-    "commit": "49898b164104bc7ac70f67c59dc4abb83965df64"
+    "commit": "bea1de7e199d50d00af053f39228ed57ea43493c"
   }
 }
