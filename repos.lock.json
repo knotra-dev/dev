@@ -5,7 +5,7 @@
   },
   "desktop": {
     "url": "https://github.com/knotra-dev/desktop.git",
-    "commit": "9d4f8f1f50949308ad8c82018352b5faab78fe26"
+    "commit": "8c1e037e8396d0cc9794d14757790893cfabaeaf"
   },
   "docs": {
     "url": "https://github.com/knotra-dev/docs.git",
